@@ -34,158 +34,49 @@ import {
   Baby,
   Users,
   Folder,
-  Settings2
+  Settings2,
+  ExternalLink,
+  X
 } from "lucide-react";
 
-const GRAMMAR_CARDS = [
-  {
-    title: "Verbets böjningsformer",
-    lessons: 14,
-    duration: "45 min",
-    tag: "Grammatik",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBYqD9Jjx8DPhccYnRTD-U77-z9ptlA9YOjAu00S0WonGAcpobpLPgQnKAW1BxJLvFFJV0ePtzT9SJZQ5cHhfUqBMK_6hKlJDYHmgY7Rf-fMgiQjrIdSgAD7v3hyjmKS5B2aXfCc-pGzCW8aVtw8B--zKevcUfZiDjXYS_066YMBDvko0elSAieNxx9OWusYWGdXZTPYuuAHoBMJEQtYTrJsGgemCQu5OY0AdFo2ZX6jaw8-1WnSz0AMpCLxVRl8VNVyXmxi2Ij"
-  },
-  {
-    title: "Spatial referensram",
-    lessons: 8,
-    duration: "32 min",
-    tag: "Grammatik",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCGQJW5mRQYudNMmdXvmctzQDARfH2ZIwZEoWjuP3VshCn8RnBTw_G1eIuuq0pcu6By2oWTZ4DXmUGw4qoKp49T-jD8Wb9BvIm0nsYpeVyX7eDjqYJO4m870bbZ39c0a7E4rx5-JRYcnFCmq7DSOfudSNGX2HO9Pvj_uo6sL9jvqCPEUcyIQFBIuD31lF0d9a0Nmpom3UFRmCA9a6bSgdu7FLGUOFRPNibJaPfi1hdfxSpEfO59r1QgpiLXCCNo-XmtHrwPrBhw"
-  },
-  {
-    title: "Negationsmorfologi",
-    lessons: 11,
-    duration: "28 min",
-    tag: "Grammatik",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAUUc3I_D96T9rOY0oEpVzQjrN1RQYNffUi-OeuuVIp4l-ShhaJcJPWrxE7YYppjzEGL-SihECAk80_SFOv9IJcSIXBQv0pMsgk0T90KtzQmJuagv1bm4WkmyXkYuRup5fLdMkoHo9HoDCoSn5ECMCM8gW3ingKzt10i8DbeE2r8rYpOw8Cc3GMJyocAfnn0K1T4Pd1flXfSe9M43dAeILh3VFbV4QEnpZEjAvgN9vuYpHiW8mqPMdD4VY2wUOew9Tdw0c0hmxL"
-  },
-  {
-    title: "Icke-manuella signaler",
-    lessons: 20,
-    duration: "55 min",
-    tag: "Grammatik",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAj5yrcqExWIvruSq6A26BieCXa2tvb-ExKBsv3y9ciGz416WxPzazNtoktKSUFhoRdVq8ur4U-kdMoIf4ocN4VgEStRJG98RYeaIf__A_X5CnsHjFk78hYv4ZRGOHy0a_I0N2bqHAxRJ9tVh9TNxJIc0JXSEV4CiutLBiizHBfGwDd1MORwOE6z0SFeRxmr5HahfZ1aVl8-WZBbHI5eWt-mQmGUc_gBqjomrf8JasSWr3JKFexLGDAkdDvq5WI5Dq1_iaba5wI"
-  }
-];
+const GRAMMAR_CARDS: any[] = [];
 
-const VOCAB_CARDS = [
-  {
-    title: "På arbetsplatsen",
-    items: 25,
-    duration: "12 min",
-    tag: "Vokabulär",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCxkSEo87JHW5po1pVnznf0TlBOAy230ysHNkhlGRIqvEZInG351eQMM0I6wK4NnKR_plx6oElPd3RZeVdhBg9jIGDploBThV8OeumztH5MQKcNOtXL_B2TDk5LYWUj4R8ffMDPrKqmgA5BvdVVZwR79m0eXFtjij5rlNVZIw326_wuLAgahXj1vsr7rL_fFWXVBWNziwt-CbCg0FmDtvcnPLwc7VFcDsV3Jo-ZuUz7qlPKejNjs0Pi-ThmiEYoRn1Eu9037fpZ"
-  },
-  {
-    title: "Beställa på restaurang",
-    items: 18,
-    duration: "10 min",
-    tag: "Vokabulär",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAlXiLMfrw0c_aNCDdrwYhYSclQQhZMOFP7O9E0NsaMVU0tRTdJc0sf9h8ikAmGCVfpXrOb0mPAw_XXY3EYqSjUcKPNCon24E7TNmttWJMHOPCWa8Xor3rZgMGgoCa2i-OoLCWIenPerfPeRITjjphDCr16mSOwT0hxgM2_JgnrHLVl6x6ixzxZAdDis4E3WkwR2csXsvn__263ZkgB2Wa2PxwE-FEqnccL4_U9A9lzj2stM7zNwdBd3VM-0FMilZ-a4z_tDNwr"
-  },
-  {
-    title: "Småprat & Mingel",
-    items: 32,
-    duration: "15 min",
-    tag: "Vokabulär",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuA4pu7ukOUIaX_B3IMWY4MGVjQ34YrhW_HLjwhMw1KkwNQqLNJEw3-avMUnSzC7Rbbcej--KsrqBY97ytBj3WOcFeQaKxtQIS5eGXAVObZZPtb_t73kPwuCfzDfrl2r29dHL5IhjXl0ZGFjl_nO5CSCfk0JqvNA-NByybNaUCn5re7pq_XRBEnmzl7cih_sJiG67Y9UgfwFZdQ4dBRuK-egwRQ07cECxToaOIl0b3daLgNjK1pjAfGV_ZG6P8cK2peBNKgP6gS9"
-  }
-];
+const VOCAB_CARDS: any[] = [];
 
 const CATEGORIES = [
-  { name: "Grammatik", icon: BookOpen, color: "bg-grammar", count: 124, description: "Syntax, morfologi och struktur." },
-  { name: "Vokabulär", icon: Languages, color: "bg-vocabulary", count: 450, description: "Glosor och tecken för vardagen." },
-  { name: "Kultur", icon: Globe, color: "bg-culture", count: 85, description: "Historia, normer och identitet." },
-  { name: "Vardagsfraser", icon: Compass, color: "bg-primary-container", count: 210, description: "Praktiska uttryck för mingel." },
-  { name: "Historia", icon: Clock, color: "bg-espresso", count: 42, description: "Teckenspråkets utveckling." },
-  { name: "Poesi", icon: LucideBookmark, color: "bg-stone-400", count: 18, description: "Visuell estetik och rytmik." },
-  { name: "Barn & Ungdom", icon: User, color: "bg-emerald-500", count: 156, description: "Sagor och pedagogiskt material." },
-  { name: "Arbetsliv", icon: Library, color: "bg-blue-500", count: 92, description: "Professionell kommunikation." },
-  { name: "Sport", icon: Play, color: "bg-orange-500", count: 34, description: "Terminologi inom idrott." }
+  { name: "Alfabetet & Siffror", icon: Languages, color: "bg-blue-500", description: "Handalfabetet och räkneord." },
+  { name: "Vardagsfraser", icon: Compass, color: "bg-primary-container", description: "Hälsningar, artighetsfraser och småprat." },
+  { name: "Frågeord", icon: BookOpen, color: "bg-grammar", description: "Vem, vad, när, hur, varför." },
+  { name: "Placeringar", icon: Globe, color: "bg-teal-500", description: "Rumsliga relationer och positioner." },
+  { name: "Riktning", icon: ArrowRight, color: "bg-orange-500", description: "Rörelser och riktningsangivelser." },
+  { name: "Avbildande tecken", icon: Play, color: "bg-violet-500", description: "Ikoniska och avbildande tecken." },
+  { name: "Munrörelser & Mimik", icon: User, color: "bg-pink-500", description: "Ansiktsuttryck och munrörelser." },
+  { name: "Familj", icon: Users, color: "bg-emerald-500", description: "Familjemedlemmar och relationer." },
+  { name: "Samhälle", icon: Library, color: "bg-stone-500", description: "Samhälle, yrken och institutioner." },
+  { name: "Natur", icon: Globe, color: "bg-green-600", description: "Djur, växter och natur." },
+  { name: "Tid", icon: Clock, color: "bg-amber-500", description: "Tid, datum och tidsuttryck." },
+  { name: "Sagor", icon: LucideBookmark, color: "bg-indigo-500", description: "Berättelser och sagor på TSP." },
+  { name: "Dövkultur & Historia", icon: Globe, color: "bg-espresso", description: "Dövkultur, identitet och historia." },
+  { name: "Lexikon/Ordböcker", icon: BookOpen, color: "bg-vocabulary", description: "Ordlistor och lexikon." },
+  { name: "Övningsmaterial", icon: FolderHeart, color: "bg-culture", description: "Uppgifter och övningar." },
+  { name: "Regionala varianter", icon: Compass, color: "bg-stone-400", description: "Dialekter och regionala tecken." },
 ];
 
-const SAVED_RESOURCES = [
-  {
-    ...GRAMMAR_CARDS[1],
-    audience: "Barn",
-    level: "Nivå 1"
-  },
-  {
-    ...VOCAB_CARDS[1],
-    audience: "Vuxna",
-    level: "Nivå 2"
-  },
-  {
-    title: "Dövas tidning - Arkiv",
-    items: 120,
-    duration: "Löpande",
-    tag: "Kultur",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDBEYDOvs95Nn9xuNoeI4mcqVYCbEdfzZht66sYmn5IVH_ce4iONwyP9xTflIgE8gZPJKMo0BXtoH1HF7t0-M-lAVqqieT72evGzgmU4Fmzs7JhH2DSy7fNnhtYUHAr4rWLHodgdIiHtfrcYdqs0_ilLfPfDpaHFZ8E5i1fBcCAYDjal2rOdRyw9LQ3tavCVQWYVEFb31RVWbwDS03ks-Da2GGinVcIFMYZXlmQsTwkLWK4h_p6OiHfjRFw5cAkKMS4TS9fH3ck",
-    audience: "Vuxna",
-    level: "Nivå 3"
-  },
-  {
-    title: "Bebistecken: Mat & Dryck",
-    items: 15,
-    duration: "10 min",
-    tag: "Vokabulär",
-    image: "https://picsum.photos/seed/baby1/300/320",
-    audience: "Bebistecken",
-    level: "Nivå 1"
-  },
-  {
-    title: "Lekfulla tecken för barn",
-    lessons: 8,
-    duration: "45 min",
-    tag: "Grammatik",
-    image: "https://picsum.photos/seed/kids/300/320",
-    audience: "Barn",
-    level: "Nivå 2"
-  }
-];
+const SAVED_RESOURCES: any[] = [];
 
-const DOCUMENTS = [
-  {
-    title: "Teckenspråkets grunder",
-    type: "PDF",
-    size: "2.4 MB",
-    tag: "Referens",
-    icon: "FileText"
-  },
-  {
-    title: "Grammatikguide - Nivå 1",
-    type: "PDF",
-    size: "1.8 MB",
-    tag: "Grammatik",
-    icon: "BookOpen"
-  },
-  {
-    title: "Handalfabetet - Referensblad",
-    type: "PNG",
-    size: "4.2 MB",
-    tag: "Vokabulär",
-    icon: "Image"
-  },
-  {
-    title: "Kulturella koder",
-    type: "PDF",
-    size: "1.1 MB",
-    tag: "Kultur",
-    icon: "Globe"
-  }
-];
+const DOCUMENTS: any[] = [];
 
-const ALL_RESOURCES = [
-  ...GRAMMAR_CARDS,
-  ...VOCAB_CARDS,
-  {
-    title: "Dövas tidning - Arkiv",
-    items: 120,
-    duration: "Löpande",
-    tag: "Kultur",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDBEYDOvs95Nn9xuNoeI4mcqVYCbEdfzZht66sYmn5IVH_ce4iONwyP9xTflIgE8gZPJKMo0BXtoH1HF7t0-M-lAVqqieT72evGzgmU4Fmzs7JhH2DSy7fNnhtYUHAr4rWLHodgdIiHtfrcYdqs0_ilLfPfDpaHFZ8E5i1fBcCAYDjal2rOdRyw9LQ3tavCVQWYVEFb31RVWbwDS03ks-Da2GGinVcIFMYZXlmQsTwkLWK4h_p6OiHfjRFw5cAkKMS4TS9fH3ck"
-  }
-];
+const DIRECTUS_URL = import.meta.env.VITE_DIRECTUS_URL || "https://databasen.alexcloud.se";
+
+const TYPE_STYLES: Record<string, { badge: string; icon: string }> = {
+  PDF:  { badge: "bg-red-100 text-red-600",   icon: "text-red-500" },
+  DOCX: { badge: "bg-blue-100 text-blue-600", icon: "text-blue-500" },
+  DOC:  { badge: "bg-blue-100 text-blue-600", icon: "text-blue-500" },
+  PNG:  { badge: "bg-emerald-100 text-emerald-600", icon: "text-emerald-500" },
+  JPG:  { badge: "bg-emerald-100 text-emerald-600", icon: "text-emerald-500" },
+  MP4:  { badge: "bg-purple-100 text-purple-600", icon: "text-purple-500" },
+  MOV:  { badge: "bg-purple-100 text-purple-600", icon: "text-purple-500" },
+};
 
 function DocumentCard({ title, type, size, tag, icon }: any) {
   const IconComponent = {
@@ -195,18 +86,20 @@ function DocumentCard({ title, type, size, tag, icon }: any) {
     Globe
   }[icon] || FileText;
 
+  const typeStyle = TYPE_STYLES[type?.toUpperCase()] || { badge: "bg-stone-100 text-stone-600", icon: "text-stone-400" };
+
   return (
-    <motion.div 
+    <motion.div
       whileHover={{ y: -4 }}
       className="bg-white p-6 rounded-2xl shadow-sm border border-stone-100 flex items-center gap-4 group cursor-pointer hover:shadow-md transition-all"
     >
-      <div className="w-12 h-12 bg-stone-50 rounded-xl flex items-center justify-center text-primary-container group-hover:bg-primary-container group-hover:text-white transition-colors">
+      <div className={`w-12 h-12 bg-stone-50 rounded-xl flex items-center justify-center transition-colors group-hover:bg-primary-container group-hover:text-white ${typeStyle.icon}`}>
         <IconComponent size={24} />
       </div>
       <div className="flex-1 min-w-0">
         <h4 className="font-bold text-stone-900 truncate font-outfit">{title}</h4>
         <div className="flex items-center gap-2 text-xs text-stone-500 font-medium">
-          <span className="bg-stone-100 px-2 py-0.5 rounded uppercase tracking-wider">{type}</span>
+          <span className={`${typeStyle.badge} px-2 py-0.5 rounded font-bold uppercase tracking-wider`}>{type}</span>
           <span>•</span>
           <span>{size}</span>
           <span>•</span>
@@ -234,21 +127,43 @@ function DocumentCard({ title, type, size, tag, icon }: any) {
   );
 }
 
-function Card({ title, lessons, items, duration, tag, image, onRemove, onEdit, audience, level }: any) {
+const TAG_COLORS: Record<string, string> = {
+  "Grammatik": "bg-grammar",
+  "Vokabulär": "bg-vocabulary",
+  "Kultur": "bg-culture",
+  "Vardagsfraser": "bg-primary-container",
+  "Historia": "bg-espresso",
+  "Poesi": "bg-stone-400",
+  "Barn & Ungdom": "bg-emerald-500",
+  "Arbetsliv": "bg-blue-500",
+  "Sport": "bg-orange-500",
+};
+
+function Card({ title, tag, image, onRemove, onEdit, audience, level, date, onClick }: any) {
+  const bgColor = TAG_COLORS[tag] || "bg-stone-400";
   return (
-    <motion.div 
-      whileHover={{ y: -8 }}
-      className="min-w-[300px] w-[300px] flex-shrink-0 snap-start group cursor-pointer"
+    <motion.div
+      whileHover={{ y: -6 }}
+      className="group cursor-pointer"
+      onClick={onClick}
     >
-      <div className="relative h-[320px] rounded-2xl overflow-hidden mb-4 shadow-sm bg-stone-200 transition-all group-hover:shadow-xl">
-        <img 
-          src={image} 
-          alt={title} 
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-          referrerPolicy="no-referrer"
-        />
-        <div className="absolute top-4 left-4 flex flex-col gap-2">
-          <div className={`backdrop-blur-sm text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest ${tag === 'Grammatik' ? 'bg-grammar/90' : 'bg-vocabulary/90'}`}>
+      {/* Bild eller färgad placeholder */}
+      <div className={`relative h-[200px] rounded-2xl overflow-hidden mb-3 shadow-sm transition-all group-hover:shadow-xl ${!image ? bgColor : "bg-stone-200"}`}>
+        {image ? (
+          <img
+            src={image}
+            alt={title}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            referrerPolicy="no-referrer"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center">
+            <FileText size={56} className="text-white/60" />
+          </div>
+        )}
+        {/* Taggar */}
+        <div className="absolute top-3 left-3 flex flex-col gap-1.5">
+          <div className={`text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest ${image ? bgColor + "/90 backdrop-blur-sm" : "bg-white/20 backdrop-blur-sm"}`}>
             {tag}
           </div>
           {level && (
@@ -258,66 +173,135 @@ function Card({ title, lessons, items, duration, tag, image, onRemove, onEdit, a
           )}
         </div>
         {audience && (
-          <div className="absolute bottom-4 left-4 bg-black/40 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest border border-white/20">
+          <div className="absolute bottom-3 left-3 bg-black/40 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest border border-white/20">
             {audience}
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-          <div className="w-14 h-14 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/30 text-white">
-            <Play className="fill-current" size={24} />
+        {/* Hover overlay */}
+        <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+          <div className="bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-bold px-4 py-2 rounded-full flex items-center gap-2">
+            <FileText size={14} /> Visa detaljer
           </div>
         </div>
       </div>
-      <h3 className="font-bold text-lg mb-1 line-clamp-1 font-outfit">{title}</h3>
-      <div className="flex justify-between items-center">
-        <p className="text-stone-500 text-sm font-body">
-          {lessons ? `${lessons} lektioner` : `${items} glosor`} • {duration}
-        </p>
-        <div className="flex items-center gap-1">
-          <button 
-            onClick={(e) => {
-              e.stopPropagation();
-              const blob = new Blob(["Mock content for " + title], { type: "text/plain" });
-              const url = URL.createObjectURL(blob);
-              const a = document.createElement("a");
-              a.href = url;
-              a.download = `${title}.txt`;
-              document.body.appendChild(a);
-              a.click();
-              document.body.removeChild(a);
-              URL.revokeObjectURL(url);
-            }}
-            className="p-2 hover:bg-stone-100 rounded-lg text-stone-400 hover:text-primary-container transition-colors"
-            title="Ladda ner resurs"
-          >
-            <Download size={20} />
-          </button>
+
+      {/* Info under kortet */}
+      <div className="flex items-start justify-between gap-2">
+        <div className="flex-1 min-w-0">
+          <h3 className="font-bold text-base mb-0.5 line-clamp-2 font-outfit leading-snug">{title}</h3>
+          {date && <p className="text-stone-400 text-xs">{date}</p>}
+        </div>
+        <div className="flex items-center gap-1 flex-shrink-0">
           {onEdit && (
-            <button 
-              onClick={(e) => {
-                e.stopPropagation();
-                onEdit();
-              }}
+            <button
+              onClick={(e) => { e.stopPropagation(); onEdit(); }}
               className="p-2 hover:bg-stone-100 rounded-lg text-stone-400 hover:text-primary-container transition-colors"
-              title="Redigera metadata"
+              title="Redigera"
             >
-              <Settings2 size={20} />
+              <Settings2 size={16} />
             </button>
           )}
           {onRemove && (
-            <button 
-              onClick={(e) => {
-                e.stopPropagation();
-                onRemove();
-              }}
+            <button
+              onClick={(e) => { e.stopPropagation(); onRemove(); }}
               className="p-2 hover:bg-red-50 rounded-lg text-stone-400 hover:text-red-500 transition-colors"
-              title="Ta bort från bibliotek"
+              title="Ta bort"
             >
-              <Trash2 size={20} />
+              <Trash2 size={16} />
             </button>
           )}
         </div>
       </div>
+    </motion.div>
+  );
+}
+
+function FileDetailModal({ resource, onClose }: any) {
+  const bgColor = TAG_COLORS[resource.tag] || "bg-stone-400";
+  const fileUrl = resource.file_id
+    ? `https://databasen.alexcloud.se/assets/${resource.file_id}`
+    : null;
+  const isPdf = fileUrl && (resource.title?.toLowerCase().endsWith(".pdf") || resource.title?.toLowerCase().includes("pdf"));
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ scale: 0.92, y: 20 }}
+        animate={{ scale: 1, y: 0 }}
+        className="bg-white rounded-[32px] w-full max-w-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+        onClick={e => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div className={`${bgColor} px-8 py-5 flex items-center justify-between flex-shrink-0`}>
+          <div className="flex items-center gap-3">
+            <FileText size={28} className="text-white/80" />
+            <h2 className="text-lg font-bold font-outfit text-white truncate max-w-md">{resource.title}</h2>
+          </div>
+          <div className="flex items-center gap-2">
+            {fileUrl && (
+              <a
+                href={`${fileUrl}?download`}
+                download
+                className="flex items-center gap-2 bg-white/20 hover:bg-white/30 text-white text-sm font-bold px-4 py-2 rounded-xl transition-colors"
+                onClick={e => e.stopPropagation()}
+              >
+                <Download size={16} /> Ladda ner
+              </a>
+            )}
+            {fileUrl && (
+              <a
+                href={fileUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 bg-white/20 hover:bg-white/30 text-white text-sm font-bold px-4 py-2 rounded-xl transition-colors"
+                onClick={e => e.stopPropagation()}
+              >
+                <ExternalLink size={16} /> Öppna
+              </a>
+            )}
+            <button onClick={onClose} className="bg-white/20 hover:bg-white/30 text-white p-2 rounded-xl transition-colors">
+              <X size={18} />
+            </button>
+          </div>
+        </div>
+
+        {/* PDF-visning */}
+        {fileUrl ? (
+          <div className="flex-1 overflow-hidden min-h-[400px]">
+            <iframe
+              src={`${fileUrl}#toolbar=1&navpanes=0`}
+              className="w-full h-full min-h-[500px]"
+              title={resource.title}
+            />
+          </div>
+        ) : (
+          <div className="flex-1 flex items-center justify-center p-12 text-stone-400">
+            <div className="text-center space-y-3">
+              <FileText size={48} className="mx-auto opacity-30" />
+              <p className="font-medium">Ingen fil kopplad till denna resurs</p>
+            </div>
+          </div>
+        )}
+
+        {/* Footer med taggar */}
+        <div className="px-8 py-4 border-t border-stone-100 flex items-center justify-between flex-shrink-0">
+          <div className="flex flex-wrap gap-2">
+            <span className={`${bgColor} text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest`}>{resource.tag}</span>
+            {resource.level && <span className="bg-stone-100 text-stone-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest">{resource.level}</span>}
+            {resource.audience && <span className="bg-stone-100 text-stone-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest">{resource.audience}</span>}
+            {resource.mapp && <span className="bg-stone-100 text-stone-500 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1"><Folder size={10} /> {resource.mapp}</span>}
+          </div>
+          <button onClick={onClose} className="text-stone-400 hover:text-stone-700 text-sm font-medium transition-colors">
+            Stäng
+          </button>
+        </div>
+      </motion.div>
     </motion.div>
   );
 }
@@ -386,8 +370,8 @@ function EditResourceModal({ resource, onSave, onClose }: any) {
               onChange={e => setEdited({ ...edited, tag: e.target.value })}
               className="w-full p-4 bg-stone-100 rounded-2xl border-none focus:ring-2 focus:ring-primary-container font-medium"
             >
-              {["Grammatik", "Vokabulär", "Kultur", "Vardagsfraser", "Historia", "Poesi", "Barn & Ungdom", "Arbetsliv", "Sport"].map(cat => (
-                <option key={cat} value={cat}>{cat}</option>
+              {CATEGORIES.map(c => (
+                <option key={c.name} value={c.name}>{c.name}</option>
               ))}
             </select>
           </div>
@@ -412,12 +396,73 @@ function EditResourceModal({ resource, onSave, onClose }: any) {
   );
 }
 
+function FolderCard({ folderName, files, bgColor, onRemoveFile, onClickFile }: any) {
+  const [open, setOpen] = useState(false);
+  return (
+    <motion.div whileHover={{ y: -4 }} className="group">
+      <div
+        className={`relative h-[200px] rounded-2xl overflow-hidden mb-3 shadow-sm cursor-pointer transition-all group-hover:shadow-xl ${bgColor}`}
+        onClick={() => setOpen(o => !o)}
+      >
+        <div className="w-full h-full flex flex-col items-center justify-center gap-3">
+          <Folder size={56} className="text-white/70" />
+          <span className="text-white/80 text-sm font-bold">{files.length} filer</span>
+        </div>
+        <div className="absolute top-3 left-3 bg-white/20 backdrop-blur-sm text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">
+          {files[0]?.tag || ""}
+        </div>
+        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+          <span className="text-white text-xs font-bold bg-white/20 backdrop-blur-md px-4 py-2 rounded-full">
+            {open ? "Dölj filer" : "Visa filer"}
+          </span>
+        </div>
+      </div>
+      <h3 className="font-bold text-base font-outfit line-clamp-1">{folderName}</h3>
+      <p className="text-stone-400 text-xs mb-2">{files.length} filer</p>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="overflow-hidden"
+          >
+            <div className="bg-stone-50 rounded-2xl border border-stone-100 divide-y divide-stone-100 mb-2">
+              {files.map((f: any, i: number) => (
+                <div key={i} className="flex items-center justify-between px-4 py-3 hover:bg-stone-100 transition-colors cursor-pointer" onClick={() => onClickFile(f)}>
+                  <div className="flex items-center gap-3 min-w-0">
+                    <FileText size={16} className="text-stone-400 flex-shrink-0" />
+                    <span className="text-sm font-medium text-stone-700 truncate">{f.title}</span>
+                  </div>
+                  <div className="flex items-center gap-1 flex-shrink-0">
+                    <span className="text-xs text-stone-400 mr-2">{f.level}</span>
+                    <button onClick={(e) => { e.stopPropagation(); onRemoveFile(f); }} className="p-1 hover:text-red-500 text-stone-400 transition-colors">
+                      <Trash2 size={14} />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
+
 export default function App() {
   const [activeTab, setActiveTab] = useState("Upptäck");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Alla");
   const [selectedAudience, setSelectedAudience] = useState(() => localStorage.getItem("selectedAudience") || "Alla");
   const [selectedLevel, setSelectedLevel] = useState(() => localStorage.getItem("selectedLevel") || "Alla");
+
+  // Document filters
+  const [docSearch, setDocSearch] = useState("");
+  const [docTypeFilter, setDocTypeFilter] = useState("Alla");
+  const [docTagFilter, setDocTagFilter] = useState("Alla");
+  const [docSortOrder, setDocSortOrder] = useState<"az" | "za">("az");
 
   // Save filters to localStorage when they change
   useEffect(() => {
@@ -427,88 +472,145 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem("selectedLevel", selectedLevel);
   }, [selectedLevel]);
-  
+
+  // Directus data state
+  const [grammarCards, setGrammarCards] = useState<any[]>(GRAMMAR_CARDS);
+  const [vocabCards, setVocabCards] = useState<any[]>(VOCAB_CARDS);
+  const [allResources, setAllResources] = useState<any[]>([...GRAMMAR_CARDS, ...VOCAB_CARDS]);
+  const [documents, setDocuments] = useState<any[]>(DOCUMENTS);
+
+  useEffect(() => {
+    const fetchDirectus = async () => {
+      try {
+        const [resRes, docRes] = await Promise.all([
+          fetch(`${DIRECTUS_URL}/items/teckensprak_resurser?limit=100`),
+          fetch(`${DIRECTUS_URL}/items/teckensprak_dokument?limit=100`),
+        ]);
+        if (resRes.ok) {
+          const resData = await resRes.json();
+          const resources: any[] = resData.data || [];
+          setGrammarCards(resources.filter((r: any) => r.tag === "Grammatik"));
+          setVocabCards(resources.filter((r: any) => r.tag === "Vokabulär"));
+          setAllResources(resources);
+        }
+        if (docRes.ok) {
+          const docData = await docRes.json();
+          setDocuments(docData.data || []);
+        }
+      } catch (e) {
+        console.error("Directus fetch failed, using static data", e);
+      }
+    };
+    fetchDirectus();
+  }, []);
+
   // Upload state
   const [isDragging, setIsDragging] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<any[]>([]);
-  const [savedResources, setSavedResources] = useState(SAVED_RESOURCES);
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [mappNamn, setMappNamn] = useState("");
+  const [expandedFolders, setExpandedFolders] = useState<Set<string>>(new Set());
   const [editingResource, setEditingResource] = useState<any>(null);
+  const [selectedResource, setSelectedResource] = useState<any>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const folderInputRef = useRef<HTMLInputElement>(null);
 
-  const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
+  const CATEGORY_OPTIONS = CATEGORIES.map(c => c.name);
+  const AUDIENCE_OPTIONS = ["Bebistecken", "Barn", "Vuxna"];
+  const LEVEL_OPTIONS = ["Nivå 1", "Nivå 2", "Nivå 3"];
 
-  const handleFileUpload = async (files: FileList | null, isFolder = false) => {
+  const handleFileUpload = (files: FileList | null) => {
     if (!files) return;
-    
     const newFiles = Array.from(files).map(file => ({
       id: Math.random().toString(36).substr(2, 9),
       name: file.name,
       size: (file.size / 1024 / 1024).toFixed(2) + " MB",
       type: file.type,
-      status: "analyzing",
-      category: "Oidentifierad",
+      fileObject: file,
+      status: "pending",
+      progress: 0,
+      category: "Grammatik",
       audience: "Vuxna",
       level: "Nivå 1",
-      date: new Date().toLocaleDateString()
+      date: new Date().toLocaleDateString("sv-SE")
     }));
-
     setUploadedFiles(prev => [...newFiles, ...prev]);
-    setIsAnalyzing(true);
+  };
 
-    // AI Analysis for each file
-    for (const fileObj of newFiles) {
-      try {
-        const response = await ai.models.generateContent({
-          model: "gemini-2.0-flash-exp",
-          contents: `Analysera filnamnet "${fileObj.name}" och kategorisera det för ett teckenspråksbibliotek.
-          Svara i JSON-format med följande fält:
-          - category: (Grammatik, Vokabulär, Kultur, Vardagsfraser, Historia, Poesi, Barn & Ungdom, Arbetsliv, Sport)
-          - audience: (Bebistecken, Barn, Vuxna)
-          - level: (Nivå 1, Nivå 2, Nivå 3)
-          
-          Exempel: "bebistecken_mat.mp4" -> { "category": "Vokabulär", "audience": "Bebistecken", "level": "Nivå 1" }`,
-          config: {
-            responseMimeType: "application/json",
+  const updateFileField = (id: string, field: string, value: string) => {
+    setUploadedFiles(prev => prev.map(f => f.id === id ? { ...f, [field]: value } : f));
+  };
+
+  const confirmFile = async (fileObj: any) => {
+    if (!fileObj.fileObject) return;
+    setUploadedFiles(prev => prev.map(f => f.id === fileObj.id ? { ...f, status: "uploading", progress: 0 } : f));
+
+    try {
+      const file_id = await new Promise<string>((resolve, reject) => {
+        const formData = new FormData();
+        formData.append("file", fileObj.fileObject, fileObj.name);
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "/api/upload");
+        xhr.timeout = 120000; // 2 min timeout
+
+        xhr.upload.onprogress = (e) => {
+          if (e.lengthComputable) {
+            const pct = Math.round((e.loaded / e.total) * 90);
+            setUploadedFiles(prev => prev.map(f => f.id === fileObj.id ? { ...f, progress: pct } : f));
           }
-        });
-
-        const analysis = JSON.parse(response.text || "{}");
-        
-        const completedFile = { 
-          ...fileObj, 
-          category: analysis.category || "Övrigt", 
-          audience: analysis.audience || "Vuxna",
-          level: analysis.level || "Nivå 1",
-          status: "completed" 
         };
 
-        setUploadedFiles(prev => prev.map(f => 
-          f.id === fileObj.id ? completedFile : f
-        ));
-
-        // Automatically move to library if it's a folder upload or just auto-add
-        const newResource = {
-          title: fileObj.name.split('.')[0],
-          items: Math.floor(Math.random() * 20) + 5,
-          duration: "5 min",
-          tag: completedFile.category,
-          audience: completedFile.audience,
-          level: completedFile.level,
-          image: `https://picsum.photos/seed/${fileObj.id}/300/320`
+        xhr.onload = () => {
+          if (xhr.status === 200) {
+            try {
+              const data = JSON.parse(xhr.responseText);
+              if (data.file_id) resolve(data.file_id);
+              else reject(new Error(data.error || "Inget file_id returnerades"));
+            } catch {
+              reject(new Error("Ogiltigt svar från server: " + xhr.responseText.slice(0, 200)));
+            }
+          } else {
+            reject(new Error(`HTTP ${xhr.status}: ${xhr.responseText.slice(0, 200)}`));
+          }
         };
-        
-        setSavedResources(prev => [newResource, ...prev]);
+        xhr.ontimeout = () => reject(new Error("Uppladdning tog för lång tid (timeout)"));
+        xhr.onerror = () => reject(new Error("Nätverksfel – kontrollera anslutningen"));
+        xhr.send(formData);
+      });
 
-      } catch (error) {
-        console.error("AI Analysis failed:", error);
-        setUploadedFiles(prev => prev.map(f => 
-          f.id === fileObj.id ? { ...f, status: "error" } : f
-        ));
-      }
+      setUploadedFiles(prev => prev.map(f => f.id === fileObj.id ? { ...f, progress: 95 } : f));
+
+      const metaRes = await fetch("/api/resources", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: fileObj.name.replace(/\.[^/.]+$/, ""),
+          tag: fileObj.category,
+          audience: fileObj.audience,
+          level: fileObj.level,
+          mapp: mappNamn.trim() || null,
+          file_id,
+        }),
+      });
+
+      if (!metaRes.ok) throw new Error("Metadata save failed: " + await metaRes.text());
+      const saved = await metaRes.json();
+      setAllResources(prev => [saved.data, ...prev]);
+      setUploadedFiles(prev => prev.map(f => f.id === fileObj.id ? { ...f, status: "completed", progress: 100 } : f));
+    } catch (e: any) {
+      console.error("Uppladdning misslyckades:", e.message);
+      setUploadedFiles(prev => prev.map(f => f.id === fileObj.id ? { ...f, status: "error", progress: 0, errorMsg: e.message } : f));
     }
-    setIsAnalyzing(false);
+  };
+
+  // Ladda upp 3 filer parallellt
+  const confirmAllFiles = async () => {
+    const pending = uploadedFiles.filter(f => f.status === "pending");
+    const chunkSize = 3;
+    for (let i = 0; i < pending.length; i += chunkSize) {
+      const chunk = pending.slice(i, i + chunkSize);
+      await Promise.all(chunk.map(file => confirmFile(file)));
+    }
   };
 
   const removeFile = (id: string) => {
@@ -528,11 +630,14 @@ export default function App() {
     URL.revokeObjectURL(url);
   };
 
-  const removeSavedResource = (title: string) => {
-    setSavedResources(prev => prev.filter(r => r.title !== title));
+  const removeSavedResource = async (resource: any) => {
+    if (resource.id) {
+      await fetch(`${DIRECTUS_URL}/items/teckensprak_resurser/${resource.id}`, { method: "DELETE" });
+    }
+    setAllResources(prev => prev.filter(r => r.title !== resource.title));
   };
 
-  const filteredResources = (activeTab === "Mitt bibliotek" ? savedResources : [...ALL_RESOURCES, ...savedResources]).filter(resource => {
+  const filteredResources = allResources.filter(resource => {
     const matchesSearch = resource.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
                          resource.tag.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory === "Alla" || resource.tag === selectedCategory;
@@ -549,6 +654,45 @@ export default function App() {
     
     return matchesSearch && matchesCategory;
   });
+
+  // Gruppera filtrerade resurser: mappar som grupper + lösa filer
+  const groupedResources = (() => {
+    const folders: Record<string, any[]> = {};
+    const loose: any[] = [];
+    for (const r of filteredResources) {
+      if (r.mapp) {
+        if (!folders[r.mapp]) folders[r.mapp] = [];
+        folders[r.mapp].push(r);
+      } else {
+        loose.push(r);
+      }
+    }
+    return { folders, loose };
+  })();
+
+  const renderResourceGrid = (resources: any[], folders: Record<string, any[]>) => (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+      {Object.entries(folders).map(([folderName, files]) => (
+        <FolderCard
+          key={`folder-${folderName}`}
+          folderName={folderName}
+          files={files}
+          bgColor={TAG_COLORS[files[0]?.tag] || "bg-stone-400"}
+          onRemoveFile={(f: any) => removeSavedResource(f)}
+          onClickFile={(f: any) => setSelectedResource(f)}
+        />
+      ))}
+      {resources.map((card, idx) => (
+        <Card
+          key={idx}
+          {...card}
+          onRemove={() => removeSavedResource(card)}
+          onEdit={() => setEditingResource(card)}
+          onClick={() => setSelectedResource(card)}
+        />
+      ))}
+    </div>
+  );
 
   const renderContent = () => {
     if (searchQuery || (selectedCategory !== "Alla" && activeTab !== "Kategorier")) {
@@ -583,16 +727,7 @@ export default function App() {
           </div>
 
           {filteredResources.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-              {filteredResources.map((card, idx) => (
-                <Card 
-                  key={idx} 
-                  {...card} 
-                  onRemove={() => removeSavedResource(card.title)}
-                  onEdit={() => setEditingResource(card)}
-                />
-              ))}
-            </div>
+            renderResourceGrid(groupedResources.loose, groupedResources.folders)
           ) : (
             <div className="py-20 text-center">
               <div className="bg-stone-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 text-stone-400">
@@ -667,7 +802,7 @@ export default function App() {
                 </a>
               </div>
               <div className="flex gap-6 overflow-x-auto pb-8 hide-scrollbar snap-x">
-                {GRAMMAR_CARDS.map((card, idx) => (
+                {grammarCards.map((card, idx) => (
                   <Card key={idx} {...card} />
                 ))}
               </div>
@@ -686,7 +821,7 @@ export default function App() {
                 </a>
               </div>
               <div className="flex gap-6 overflow-x-auto pb-8 hide-scrollbar snap-x">
-                {VOCAB_CARDS.map((card, idx) => (
+                {vocabCards.map((card, idx) => (
                   <Card key={idx} {...card} />
                 ))}
               </div>
@@ -791,11 +926,113 @@ export default function App() {
                   <FileText className="text-primary-container" /> Dokument
                 </h3>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {DOCUMENTS.map((doc, idx) => (
-                  <DocumentCard key={idx} {...doc} />
-                ))}
-              </div>
+
+              {/* Filter panel */}
+              {(() => {
+                const uniqueTypes = ["Alla", ...Array.from(new Set(documents.map((d: any) => d.type).filter(Boolean)))];
+                const uniqueTags = ["Alla", ...Array.from(new Set(documents.map((d: any) => d.tag).filter(Boolean)))];
+                const filteredDocs = documents
+                  .filter((d: any) => {
+                    const matchSearch = !docSearch || d.title?.toLowerCase().includes(docSearch.toLowerCase());
+                    const matchType = docTypeFilter === "Alla" || d.type === docTypeFilter;
+                    const matchTag = docTagFilter === "Alla" || d.tag === docTagFilter;
+                    return matchSearch && matchType && matchTag;
+                  })
+                  .sort((a: any, b: any) => {
+                    const ta = a.title || "";
+                    const tb = b.title || "";
+                    return docSortOrder === "az" ? ta.localeCompare(tb, "sv") : tb.localeCompare(ta, "sv");
+                  });
+
+                const hasActiveFilters = docSearch || docTypeFilter !== "Alla" || docTagFilter !== "Alla";
+
+                return (
+                  <>
+                    <div className="bg-stone-50 rounded-3xl p-6 mb-6 space-y-4">
+                      {/* Search */}
+                      <div className="flex items-center bg-white px-4 py-3 rounded-2xl shadow-sm gap-3 focus-within:ring-2 ring-primary-container/20 transition-all">
+                        <LucideSearch className="text-stone-400 shrink-0" size={18} />
+                        <input
+                          className="bg-transparent border-none focus:ring-0 p-0 text-sm w-full text-espresso placeholder-stone-400 font-medium"
+                          placeholder="Sök bland filer..."
+                          value={docSearch}
+                          onChange={e => setDocSearch(e.target.value)}
+                        />
+                        {docSearch && (
+                          <button onClick={() => setDocSearch("")} className="text-stone-400 hover:text-stone-600 transition-colors text-xs font-bold">✕</button>
+                        )}
+                      </div>
+
+                      {/* Type filter */}
+                      <div className="flex flex-wrap gap-2 items-center">
+                        <span className="text-xs font-bold text-stone-400 uppercase tracking-widest mr-1">Typ:</span>
+                        {uniqueTypes.map(t => (
+                          <button
+                            key={t}
+                            onClick={() => setDocTypeFilter(t)}
+                            className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${docTypeFilter === t ? "bg-primary-container text-white shadow-sm" : "bg-white text-stone-500 hover:text-stone-700 border border-stone-200"}`}
+                          >
+                            {t}
+                          </button>
+                        ))}
+                      </div>
+
+                      {/* Tag filter */}
+                      <div className="flex flex-wrap gap-2 items-center">
+                        <span className="text-xs font-bold text-stone-400 uppercase tracking-widest mr-1">Kategori:</span>
+                        {uniqueTags.map(t => (
+                          <button
+                            key={t}
+                            onClick={() => setDocTagFilter(t)}
+                            className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${docTagFilter === t ? "bg-primary-container text-white shadow-sm" : "bg-white text-stone-500 hover:text-stone-700 border border-stone-200"}`}
+                          >
+                            {t}
+                          </button>
+                        ))}
+                      </div>
+
+                      {/* Sort + clear */}
+                      <div className="flex flex-wrap gap-3 items-center justify-between pt-1">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs font-bold text-stone-400 uppercase tracking-widest">Sortera:</span>
+                          <button
+                            onClick={() => setDocSortOrder(docSortOrder === "az" ? "za" : "az")}
+                            className="px-4 py-1.5 rounded-full text-xs font-bold bg-white border border-stone-200 text-stone-500 hover:text-stone-700 transition-all"
+                          >
+                            {docSortOrder === "az" ? "A → Ö" : "Ö → A"}
+                          </button>
+                        </div>
+                        {hasActiveFilters && (
+                          <button
+                            onClick={() => { setDocSearch(""); setDocTypeFilter("Alla"); setDocTagFilter("Alla"); }}
+                            className="text-primary-container text-xs font-bold hover:underline flex items-center gap-1"
+                          >
+                            <Trash2 size={12} /> Rensa filter
+                          </button>
+                        )}
+                        <span className="text-xs text-stone-400 font-medium ml-auto">{filteredDocs.length} av {documents.length} filer</span>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {filteredDocs.map((doc: any, idx: number) => (
+                        <DocumentCard key={idx} {...doc} />
+                      ))}
+                      {filteredDocs.length === 0 && (
+                        <div className="col-span-full py-16 text-center bg-stone-50 rounded-3xl border-2 border-dashed border-stone-200">
+                          <p className="text-stone-400 font-medium">Inga filer matchar filtren.</p>
+                          <button
+                            onClick={() => { setDocSearch(""); setDocTypeFilter("Alla"); setDocTagFilter("Alla"); }}
+                            className="mt-3 text-primary-container text-sm font-bold hover:underline"
+                          >
+                            Rensa filter
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </>
+                );
+              })()}
             </section>
 
             <section>
@@ -822,7 +1059,7 @@ export default function App() {
                       <div className="text-center">
                         <span className="block font-bold text-lg font-outfit">{folder.name}</span>
                         <span className="text-sm text-stone-500">
-                          {savedResources.filter(r => r.audience === folder.id).length} resurser
+                          {allResources.filter(r => r.audience === folder.id).length} resurser
                         </span>
                       </div>
                     </motion.button>
@@ -864,28 +1101,21 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                {filteredResources.map((card, idx) => (
-                  <Card 
-                    key={idx} 
-                    {...card} 
-                    onRemove={() => removeSavedResource(card.title)}
-                    onEdit={() => setEditingResource(card)}
-                  />
-                ))}
-                {filteredResources.length === 0 && (
-                  <div className="col-span-full py-20 text-center bg-stone-50 rounded-3xl border-2 border-dashed border-stone-200">
+              {filteredResources.length > 0
+                ? renderResourceGrid(groupedResources.loose, groupedResources.folders)
+                : (
+                  <div className="py-20 text-center bg-stone-50 rounded-3xl border-2 border-dashed border-stone-200">
                     <p className="text-stone-400 font-medium">Inga resurser hittades med valda filter.</p>
                   </div>
-                )}
-              </div>
+                )
+              }
             </section>
 
             <section className="bg-espresso text-white p-12 rounded-[40px] flex flex-col md:flex-row items-center justify-between gap-8">
               <div className="space-y-4 max-w-lg">
                 <h3 className="text-3xl font-bold font-outfit">Redo att bidra?</h3>
-                <p className="text-white/70 leading-relaxed">Dela med dig av ditt material eller dina erfarenheter till Teckenspråks bibliotek. Tillsammans bygger vi världens största resursbank för svenskt teckenspråk.</p>
-                <button className="bg-primary-container text-white px-8 py-4 rounded-full font-bold hover:scale-105 transition-transform">
+                <p className="text-white/70 leading-relaxed">Dela med dig av ditt material eller dina erfarenheter till Teckenspråksbibliotek. Tillsammans bygger vi världens största resursbank för svenskt teckenspråk.</p>
+                <button onClick={() => setActiveTab("Ladda upp")} className="bg-primary-container text-white px-8 py-4 rounded-full font-bold hover:scale-105 transition-transform">
                   Ladda upp material
                 </button>
               </div>
@@ -923,9 +1153,6 @@ export default function App() {
                   </div>
                   <h3 className="text-2xl font-bold font-outfit mb-3">{cat.name}</h3>
                   <p className="text-stone-400 text-sm mb-6 max-w-[200px]">{cat.description}</p>
-                  <div className="bg-stone-50 px-4 py-2 rounded-full text-stone-600 font-bold text-xs">
-                    {cat.count} resurser
-                  </div>
                 </motion.div>
               ))}
             </div>
@@ -952,26 +1179,7 @@ export default function App() {
                 </div>
                 <div className="text-center md:text-left space-y-2">
                   <h2 className="text-4xl font-bold font-outfit">Alexander Rabnor</h2>
-                  <p className="text-stone-500 font-medium">Teckenspråksentusiast • Medlem sedan 2024</p>
-                  <div className="flex gap-3 justify-center md:justify-start pt-2">
-                    <span className="bg-stone-100 px-4 py-1.5 rounded-full text-xs font-bold text-stone-600">Nivå 12</span>
-                    <span className="bg-primary-container/10 px-4 py-1.5 rounded-full text-xs font-bold text-primary-container">Guldmedlem</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                <div className="bg-stone-50 p-6 rounded-3xl text-center">
-                  <p className="text-stone-400 text-xs font-bold uppercase tracking-widest mb-1">Slutförda kurser</p>
-                  <p className="text-3xl font-bold font-outfit">24</p>
-                </div>
-                <div className="bg-stone-50 p-6 rounded-3xl text-center">
-                  <p className="text-stone-400 text-xs font-bold uppercase tracking-widest mb-1">Inlärda tecken</p>
-                  <p className="text-3xl font-bold font-outfit">1,420</p>
-                </div>
-                <div className="bg-stone-50 p-6 rounded-3xl text-center">
-                  <p className="text-stone-400 text-xs font-bold uppercase tracking-widest mb-1">Dagar i rad</p>
-                  <p className="text-3xl font-bold font-outfit">15</p>
+                  <p className="text-stone-500 font-medium">Administratör • Teckenspraksbiblioteket</p>
                 </div>
               </div>
 
@@ -1001,7 +1209,7 @@ export default function App() {
             <div className="text-center space-y-4">
               <h2 className="text-5xl font-bold font-outfit tracking-tight">Ladda upp material</h2>
               <p className="text-stone-500 text-lg max-w-2xl mx-auto">
-                Dela med dig av dina videor, dokument eller övningar. Vår AI hjälper dig att kategorisera materialet automatiskt.
+                Dela med dig av dina videor, dokument eller övningar. Välj kategori, målgrupp och nivå för varje fil.
               </p>
             </div>
 
@@ -1024,30 +1232,30 @@ export default function App() {
                 <h3 className="text-2xl font-bold font-outfit">Dra och släpp filer här</h3>
                 <p className="text-stone-400">eller klicka för att bläddra på din enhet</p>
               </div>
-              <input 
-                type="file" 
-                multiple 
-                className="hidden" 
+              <input
+                type="file"
+                multiple
+                className="hidden"
                 ref={fileInputRef}
                 onChange={(e) => handleFileUpload(e.target.files)}
               />
-              <input 
-                type="file" 
-                multiple 
+              <input
+                type="file"
+                multiple
                 {...{ webkitdirectory: "", directory: "" } as any}
-                className="hidden" 
+                className="hidden"
                 ref={folderInputRef}
-                onChange={(e) => handleFileUpload(e.target.files, true)}
+                onChange={(e) => handleFileUpload(e.target.files)}
               />
               <div className="flex flex-col sm:flex-row gap-4">
-                <button 
+                <button
                   onClick={() => fileInputRef.current?.click()}
                   className="bg-espresso text-white px-10 py-4 rounded-full font-bold hover:scale-105 transition-transform shadow-lg flex items-center justify-center gap-2"
                 >
                   <FileText size={20} />
                   Välj filer
                 </button>
-                <button 
+                <button
                   onClick={() => folderInputRef.current?.click()}
                   className="bg-white border-2 border-espresso text-espresso px-10 py-4 rounded-full font-bold hover:scale-105 transition-transform shadow-lg flex items-center justify-center gap-2"
                 >
@@ -1059,63 +1267,148 @@ export default function App() {
             </div>
 
             {uploadedFiles.length > 0 && (
-              <div className="bg-white rounded-[40px] p-10 shadow-sm border border-stone-100 space-y-8">
-                <div className="flex justify-between items-center">
-                  <h3 className="text-2xl font-bold font-outfit">Dina uppladdningar</h3>
-                  {isAnalyzing && (
-                    <div className="flex items-center gap-2 text-primary-container font-bold text-sm animate-pulse">
-                      <Loader2 className="animate-spin" size={18} />
-                      AI analyserar...
-                    </div>
-                  )}
+              <div className="bg-white rounded-[40px] p-10 shadow-sm border border-stone-100 space-y-6">
+                {/* Mappnamn-fält */}
+                <div className="bg-stone-50 rounded-2xl p-6 border border-stone-200 space-y-2">
+                  <label className="block text-sm font-bold text-stone-600 uppercase tracking-wide flex items-center gap-2">
+                    <Folder size={16} /> Spara som mapp (valfritt)
+                  </label>
+                  <p className="text-xs text-stone-400">Ange ett mappnamn om du vill gruppera filerna. Lämna tomt för att spara som enskilda filer.</p>
+                  <input
+                    type="text"
+                    placeholder="t.ex. Övningsboken kapitel 1–5"
+                    value={mappNamn}
+                    onChange={e => setMappNamn(e.target.value)}
+                    className="w-full bg-white border border-stone-200 rounded-xl px-4 py-3 text-sm font-medium text-stone-700 focus:outline-none focus:ring-2 focus:ring-primary-container/30"
+                  />
                 </div>
 
+                <div className="flex items-center justify-between">
+                  <h3 className="text-2xl font-bold font-outfit">Dina uppladdningar</h3>
+                  {uploadedFiles.some(f => f.status === "pending") && (
+                    <button
+                      onClick={confirmAllFiles}
+                      className="bg-primary-container text-white px-6 py-2.5 rounded-xl font-bold text-sm hover:scale-105 transition-transform flex items-center gap-2"
+                    >
+                      <CheckCircle2 size={16} />
+                      Spara alla till biblioteket
+                    </button>
+                  )}
+                </div>
                 <div className="space-y-4">
                   {uploadedFiles.map((file) => (
-                    <motion.div 
+                    <motion.div
                       key={file.id}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
-                      className="flex items-center justify-between p-6 bg-stone-50 rounded-3xl border border-stone-100 group hover:border-primary-container/30 transition-colors"
+                      className={`p-6 rounded-3xl border transition-colors ${
+                        file.status === 'completed'
+                          ? "bg-emerald-50 border-emerald-200"
+                          : "bg-stone-50 border-stone-100"
+                      }`}
                     >
-                      <div className="flex items-center gap-6">
-                        <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-stone-400 shadow-sm">
-                          <FileText size={28} />
-                        </div>
-                        <div className="space-y-1">
-                          <h4 className="font-bold text-stone-800">{file.name}</h4>
-                          <div className="flex items-center gap-3 text-xs font-medium">
-                            <span className="text-stone-400">{file.size}</span>
-                            <span className="text-stone-300">•</span>
-                            <span className="text-stone-400">{file.date}</span>
-                            <span className="text-stone-300">•</span>
-                            <span className={`px-2 py-0.5 rounded-md flex items-center gap-1 ${
-                              file.status === 'completed' ? "bg-emerald-100 text-emerald-600" : 
-                              file.status === 'error' ? "bg-red-100 text-red-600" : "bg-blue-100 text-blue-600"
-                            }`}>
-                              {file.status === 'completed' ? <CheckCircle2 size={12} /> : 
-                               file.status === 'error' ? <AlertCircle size={12} /> : <Loader2 className="animate-spin" size={12} />}
-                              {file.category}
-                            </span>
+                      {/* Filinfo rad */}
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center gap-4">
+                          <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-stone-400 shadow-sm">
+                            <FileText size={24} />
+                          </div>
+                          <div>
+                            <h4 className="font-bold text-stone-800">{file.name}</h4>
+                            <p className="text-xs text-stone-400">{file.size} • {file.date}</p>
                           </div>
                         </div>
+                        <div className="flex items-center gap-2">
+                          {file.status === 'uploading' && (
+                            <span className="flex items-center gap-1 text-blue-500 text-sm font-bold animate-pulse">
+                              <Loader2 size={16} className="animate-spin" /> Laddar upp...
+                            </span>
+                          )}
+                          {file.status === 'completed' && (
+                            <span className="flex items-center gap-1 text-emerald-600 text-sm font-bold">
+                              <CheckCircle2 size={16} /> Sparad i biblioteket
+                            </span>
+                          )}
+                          {file.status === 'error' && (
+                            <span className="flex flex-col items-end gap-0.5">
+                              <span className="flex items-center gap-1 text-red-500 text-sm font-bold">
+                                <AlertCircle size={16} /> Misslyckades
+                              </span>
+                              {file.errorMsg && (
+                                <span className="text-red-400 text-[11px] max-w-[280px] text-right leading-tight">{file.errorMsg}</span>
+                              )}
+                            </span>
+                          )}
+                          <button
+                            onClick={() => removeFile(file.id)}
+                            className="p-2 hover:bg-white rounded-xl text-stone-400 hover:text-red-500 transition-colors"
+                            title="Ta bort"
+                          >
+                            <Trash2 size={18} />
+                          </button>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <button 
-                          onClick={() => downloadFile(file)}
-                          className="p-3 hover:bg-white rounded-xl text-stone-400 hover:text-primary-container transition-colors shadow-sm"
-                          title="Ladda ner"
-                        >
-                          <Download size={20} />
-                        </button>
-                        <button 
-                          onClick={() => removeFile(file.id)}
-                          className="p-3 hover:bg-white rounded-xl text-stone-400 hover:text-red-500 transition-colors shadow-sm"
-                          title="Ta bort"
-                        >
-                          <Trash2 size={20} />
-                        </button>
-                      </div>
+
+                      {/* Progress-bar */}
+                      {file.status === 'uploading' && (
+                        <div className="mb-4">
+                          <div className="flex justify-between text-xs text-stone-500 mb-1">
+                            <span>Laddar upp till server...</span>
+                            <span className="font-bold text-blue-500">{file.progress}%</span>
+                          </div>
+                          <div className="w-full bg-stone-200 rounded-full h-2 overflow-hidden">
+                            <motion.div
+                              className="h-2 bg-blue-500 rounded-full"
+                              initial={{ width: 0 }}
+                              animate={{ width: `${file.progress}%` }}
+                              transition={{ ease: "easeOut" }}
+                            />
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Kategori-val (döljs när sparad/uploading) */}
+                      {file.status !== 'completed' && file.status !== 'uploading' && (
+                        <div className="flex flex-wrap gap-3 items-end">
+                          <div className="flex flex-col gap-1">
+                            <label className="text-xs font-semibold text-stone-500 uppercase tracking-wide">Kategori</label>
+                            <select
+                              value={file.category}
+                              onChange={(e) => updateFileField(file.id, "category", e.target.value)}
+                              className="bg-white border border-stone-200 rounded-xl px-3 py-2 text-sm font-medium text-stone-700 focus:outline-none focus:ring-2 focus:ring-primary-container/30"
+                            >
+                              {CATEGORY_OPTIONS.map(c => <option key={c}>{c}</option>)}
+                            </select>
+                          </div>
+                          <div className="flex flex-col gap-1">
+                            <label className="text-xs font-semibold text-stone-500 uppercase tracking-wide">Målgrupp</label>
+                            <select
+                              value={file.audience}
+                              onChange={(e) => updateFileField(file.id, "audience", e.target.value)}
+                              className="bg-white border border-stone-200 rounded-xl px-3 py-2 text-sm font-medium text-stone-700 focus:outline-none focus:ring-2 focus:ring-primary-container/30"
+                            >
+                              {AUDIENCE_OPTIONS.map(a => <option key={a}>{a}</option>)}
+                            </select>
+                          </div>
+                          <div className="flex flex-col gap-1">
+                            <label className="text-xs font-semibold text-stone-500 uppercase tracking-wide">Nivå</label>
+                            <select
+                              value={file.level}
+                              onChange={(e) => updateFileField(file.id, "level", e.target.value)}
+                              className="bg-white border border-stone-200 rounded-xl px-3 py-2 text-sm font-medium text-stone-700 focus:outline-none focus:ring-2 focus:ring-primary-container/30"
+                            >
+                              {LEVEL_OPTIONS.map(l => <option key={l}>{l}</option>)}
+                            </select>
+                          </div>
+                          <button
+                            onClick={() => confirmFile(file)}
+                            className="bg-espresso text-white px-6 py-2 rounded-xl font-bold text-sm hover:scale-105 transition-transform flex items-center gap-2"
+                          >
+                            <CheckCircle2 size={16} />
+                            Spara till bibliotek
+                          </button>
+                        </div>
+                      )}
                     </motion.div>
                   ))}
                 </div>
@@ -1138,7 +1431,7 @@ export default function App() {
               className="text-2xl font-bold tracking-tight text-stone-800 font-outfit cursor-pointer"
               onClick={() => setActiveTab("Upptäck")}
             >
-              Teckenspråks bibliotek
+              Teckenspråksbibliotek
             </span>
             <div className="hidden md:flex items-center bg-surface-container-low px-4 py-2.5 rounded-full w-40 mr-8 group focus-within:ring-2 ring-primary-container/20 transition-all">
               <LucideSearch className="text-stone-400 mr-2" size={18} />
@@ -1228,7 +1521,7 @@ export default function App() {
       {/* Floating Side Nav (Desktop) */}
       <aside className="fixed left-0 top-0 h-full hidden lg:flex flex-col py-10 px-6 w-72 bg-stone-50 rounded-r-[40px] z-40 transform -translate-x-[calc(100%-20px)] hover:translate-x-0 transition-transform duration-500 ease-in-out shadow-2xl">
         <div className="mb-14">
-          <h2 className="text-xl font-bold text-stone-800 font-outfit">Teckenspråks bibliotek</h2>
+          <h2 className="text-xl font-bold text-stone-800 font-outfit">Teckenspråksbibliotek</h2>
           <p className="text-stone-500 text-sm">Svenskt teckenspråk</p>
         </div>
         <nav className="space-y-4 flex-1">
@@ -1327,13 +1620,19 @@ export default function App() {
 
       <AnimatePresence>
         {editingResource && (
-          <EditResourceModal 
+          <EditResourceModal
             resource={editingResource}
             onClose={() => setEditingResource(null)}
             onSave={(updated: any) => {
-              setSavedResources(prev => prev.map(r => r.title === editingResource.title ? updated : r));
+              setAllResources(prev => prev.map(r => r.title === editingResource.title ? updated : r));
               setEditingResource(null);
             }}
+          />
+        )}
+        {selectedResource && (
+          <FileDetailModal
+            resource={selectedResource}
+            onClose={() => setSelectedResource(null)}
           />
         )}
       </AnimatePresence>

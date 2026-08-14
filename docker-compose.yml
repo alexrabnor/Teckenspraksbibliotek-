@@ -1,0 +1,17 @@
+services:
+  app:
+    build:
+      context: .
+      args:
+        VITE_DIRECTUS_URL: ${VITE_DIRECTUS_URL}
+        VITE_GEMINI_API_KEY: ${VITE_GEMINI_API_KEY}
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "${PORT}:${PORT}"
+    networks:
+      - caddy_net
+
+networks:
+  caddy_net:
+    external: true
