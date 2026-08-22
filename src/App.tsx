@@ -544,6 +544,16 @@ export default function App() {
 
   const confirmFile = async (fileObj: any) => {
     if (!fileObj.fileObject) return;
+
+    // Uppladdning kräver inloggning i servern. Är vi inte inloggade visas
+    // kodrutan först, och filen laddas upp när koden stämmer.
+    const session = await fetch("/api/session").then(r => r.json()).catch(() => ({ inloggad: false }));
+    if (!session.inloggad) {
+      setPinVarde("");
+      setPinFel("");
+      setPinRuta({ __uppladdning: fileObj });
+      return;
+    }
     setUploadedFiles(prev => prev.map(f => f.id === fileObj.id ? { ...f, status: "uploading", progress: 0 } : f));
 
     try {
@@ -670,9 +680,10 @@ export default function App() {
       setPinVarde("");
       return;
     }
-    const resurs = pinRuta;
+    const arende = pinRuta;
     setPinRuta(null);
-    await taBortResurs(resurs);
+    if (arende?.__uppladdning) await confirmFile(arende.__uppladdning);
+    else await taBortResurs(arende);
   };
 
   const filteredResources = allResources.filter(resource => {
@@ -1686,7 +1697,7 @@ export default function App() {
             style={{ background: "#fff", borderRadius: 16, padding: "28px 26px", width: "min(320px, 90vw)", textAlign: "center", boxShadow: "0 18px 50px rgba(0,0,0,.3)" }}
           >
             <h3 style={{ fontSize: "1.25rem", fontWeight: 700, color: "#1f2937" }}>Ange kod</h3>
-            <p style={{ color: "#6b7280", fontSize: ".9rem", marginTop: 8 }}>Radering kräver inloggning.</p>
+            <p style={{ color: "#6b7280", fontSize: ".9rem", marginTop: 8 }}>Att lägga till och ta bort kräver inloggning.</p>
             <input
               type="password"
               inputMode="numeric"
@@ -1701,7 +1712,7 @@ export default function App() {
               type="submit"
               style={{ width: "100%", marginTop: 12, padding: 12, fontSize: "1rem", fontWeight: 700, background: "#4f46e5", color: "#fff", border: 0, borderRadius: 10, cursor: "pointer" }}
             >
-              Lås upp och ta bort
+              Lås upp
             </button>
             {pinFel && <div style={{ marginTop: 12, color: "#dc2626", fontSize: ".88rem" }}>{pinFel}</div>}
           </form>

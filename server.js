@@ -79,6 +79,11 @@ app.get('/api/session', (req, res) => {
   res.json({ inloggad: giltigSession(req.cookies?.[COOKIE]) });
 });
 
+function kravInloggning(req, res, next) {
+  if (giltigSession(req.cookies?.[COOKIE])) return next();
+  res.status(401).json({ error: 'Inloggning kravs' });
+}
+
 // --- Lasproxy: token server-side, aldrig i bundlen ---
 app.use('/directus', async (req, res) => {
   const rest = req.originalUrl.replace(/^\/directus/, '');
@@ -98,7 +103,9 @@ app.use('/directus', async (req, res) => {
 });
 
 // Upload fil till Directus
-app.post('/api/upload', upload.single('file'), async (req, res) => {
+// Uppladdning och nya resurser kraver inloggning. Utan det kan vem som helst
+// pa internet lagga upp filer (500 MB styck) i Directus med appens token.
+app.post('/api/upload', kravInloggning, upload.single('file'), async (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'No file' });
   console.log(`[upload] ${req.file.originalname} (${(req.file.size/1024/1024).toFixed(2)} MB)`);
   try {
@@ -127,7 +134,7 @@ app.post('/api/upload', upload.single('file'), async (req, res) => {
 });
 
 // Spara resurs-metadata till Directus
-app.post('/api/resources', async (req, res) => {
+app.post('/api/resources', kravInloggning, async (req, res) => {
   try {
     const response = await fetch(`${DIRECTUS_URL}/items/teckensprak_resurser`, {
       method: 'POST',
