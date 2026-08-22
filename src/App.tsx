@@ -66,7 +66,9 @@ const SAVED_RESOURCES: any[] = [];
 
 const DOCUMENTS: any[] = [];
 
-const DIRECTUS_URL = import.meta.env.VITE_DIRECTUS_URL || "https://databasen.alexcloud.se";
+// Läsningar går via appens egen server på /directus, som lägger på Directus-token
+// server-side. Radering går via /api/resources/:id och kräver inloggning.
+const DIRECTUS_URL = "/directus";
 
 const TYPE_STYLES: Record<string, { badge: string; icon: string }> = {
   PDF:  { badge: "bg-red-100 text-red-600",   icon: "text-red-500" },
@@ -630,11 +632,47 @@ export default function App() {
     URL.revokeObjectURL(url);
   };
 
-  const removeSavedResource = async (resource: any) => {
+  const [pinRuta, setPinRuta] = useState<any>(null);
+  const [pinVarde, setPinVarde] = useState("");
+  const [pinFel, setPinFel] = useState("");
+
+  const taBortResurs = async (resource: any) => {
     if (resource.id) {
-      await fetch(`${DIRECTUS_URL}/items/teckensprak_resurser/${resource.id}`, { method: "DELETE" });
+      const res = await fetch(`/api/resources/${resource.id}`, { method: "DELETE" });
+      if (res.status === 401) return false;
+      if (!res.ok) throw new Error("Kunde inte ta bort resursen");
     }
     setAllResources(prev => prev.filter(r => r.title !== resource.title));
+    return true;
+  };
+
+  // Radering kräver inloggning i servern. Koden efterfrågas första gången;
+  // sessionen sitter sedan i en cookie i 30 dagar.
+  const removeSavedResource = async (resource: any) => {
+    const klart = await taBortResurs(resource);
+    if (!klart) {
+      setPinVarde("");
+      setPinFel("");
+      setPinRuta(resource);
+    }
+  };
+
+  const skickaPin = async (e: any) => {
+    e.preventDefault();
+    const res = await fetch("/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pin: pinVarde }),
+    });
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      setPinFel(data.error || "Fel kod");
+      setPinVarde("");
+      return;
+    }
+    const resurs = pinRuta;
+    setPinRuta(null);
+    await taBortResurs(resurs);
   };
 
   const filteredResources = allResources.filter(resource => {
@@ -1636,6 +1674,39 @@ export default function App() {
           />
         )}
       </AnimatePresence>
+
+      {pinRuta && (
+        <div
+          onClick={() => setPinRuta(null)}
+          style={{ position: "fixed", inset: 0, background: "rgba(15,17,23,.6)", display: "grid", placeItems: "center", zIndex: 100 }}
+        >
+          <form
+            onClick={(e) => e.stopPropagation()}
+            onSubmit={skickaPin}
+            style={{ background: "#fff", borderRadius: 16, padding: "28px 26px", width: "min(320px, 90vw)", textAlign: "center", boxShadow: "0 18px 50px rgba(0,0,0,.3)" }}
+          >
+            <h3 style={{ fontSize: "1.25rem", fontWeight: 700, color: "#1f2937" }}>Ange kod</h3>
+            <p style={{ color: "#6b7280", fontSize: ".9rem", marginTop: 8 }}>Radering kräver inloggning.</p>
+            <input
+              type="password"
+              inputMode="numeric"
+              maxLength={6}
+              autoFocus
+              value={pinVarde}
+              onChange={(e) => setPinVarde(e.target.value)}
+              placeholder="••••••"
+              style={{ width: "100%", marginTop: 18, padding: 12, fontSize: "1.4rem", letterSpacing: ".4em", textAlign: "center", border: "1px solid #d1d5db", borderRadius: 10 }}
+            />
+            <button
+              type="submit"
+              style={{ width: "100%", marginTop: 12, padding: 12, fontSize: "1rem", fontWeight: 700, background: "#4f46e5", color: "#fff", border: 0, borderRadius: 10, cursor: "pointer" }}
+            >
+              Lås upp och ta bort
+            </button>
+            {pinFel && <div style={{ marginTop: 12, color: "#dc2626", fontSize: ".88rem" }}>{pinFel}</div>}
+          </form>
+        </div>
+      )}
     </div>
   );
 }

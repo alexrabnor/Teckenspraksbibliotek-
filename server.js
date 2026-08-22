@@ -1,4 +1,6 @@
 import express from 'express';
+import cookieParser from 'cookie-parser';
+import crypto from 'crypto';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
@@ -14,10 +16,86 @@ const PORT = process.env.PORT || 3000;
 const DIRECTUS_URL = process.env.DIRECTUS_URL || 'https://databasen.alexcloud.se';
 const DIRECTUS_TOKEN = process.env.DIRECTUS_TOKEN;
 
+const APP_PIN = String(process.env.APP_PIN || '');
+const SESSION_SECRET = String(process.env.SESSION_SECRET || '');
+const SESSION_DAYS = 30;
+const COOKIE = 'tsbib_session';
+
+if (!DIRECTUS_TOKEN || !APP_PIN || !SESSION_SECRET) {
+  console.error('DIRECTUS_TOKEN, APP_PIN och SESSION_SECRET maste finnas i .env.');
+  process.exit(1);
+}
+
+// Kollektioner som far lasas via proxyn.
+const TILLATNA = new Set(['teckensprak_resurser', 'teckensprak_dokument']);
+
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 500 * 1024 * 1024 } });
 
+app.set('trust proxy', true);
+app.use(cookieParser());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'dist')));
+
+// --- Inloggning (kravs for att radera) ---
+function skapaSession() {
+  const utgar = Date.now() + SESSION_DAYS * 86400000;
+  const sig = crypto.createHmac('sha256', SESSION_SECRET).update(String(utgar)).digest('hex');
+  return utgar + '.' + sig;
+}
+
+function giltigSession(token) {
+  if (typeof token !== 'string') return false;
+  const [utgar, sig] = token.split('.');
+  if (!utgar || !sig || !/^[0-9]+$/.test(utgar)) return false;
+  if (Number(utgar) < Date.now()) return false;
+  const vantad = crypto.createHmac('sha256', SESSION_SECRET).update(utgar).digest('hex');
+  const a = Buffer.from(sig);
+  const b = Buffer.from(vantad);
+  return a.length === b.length && crypto.timingSafeEqual(a, b);
+}
+
+const forsok = new Map();
+const klientIp = (req) => req.headers['cf-connecting-ip'] || req.ip || 'okand';
+
+app.post('/api/login', (req, res) => {
+  const ip = klientIp(req);
+  const rad = forsok.get(ip);
+  if (rad && rad.antal >= 5 && Date.now() - rad.senast <= 15 * 60 * 1000) {
+    return res.status(429).json({ error: 'For manga forsok - vanta 15 minuter.' });
+  }
+  const pin = String(req.body?.pin || '');
+  const ratt =
+    pin.length === APP_PIN.length &&
+    crypto.timingSafeEqual(Buffer.from(pin), Buffer.from(APP_PIN));
+  if (!ratt) {
+    forsok.set(ip, { antal: rad && Date.now() - rad.senast <= 15 * 60 * 1000 ? rad.antal + 1 : 1, senast: Date.now() });
+    return res.status(401).json({ error: 'Fel kod' });
+  }
+  forsok.delete(ip);
+  res.cookie(COOKIE, skapaSession(), { httpOnly: true, secure: true, sameSite: 'lax', maxAge: SESSION_DAYS * 86400000 });
+  res.json({ ok: true });
+});
+
+app.get('/api/session', (req, res) => {
+  res.json({ inloggad: giltigSession(req.cookies?.[COOKIE]) });
+});
+
+// --- Lasproxy: token server-side, aldrig i bundlen ---
+app.use('/directus', async (req, res) => {
+  const rest = req.originalUrl.replace(/^\/directus/, '');
+  const traff = rest.split('?')[0].match(/^\/items\/([a-z_]+)/);
+  if (!traff || !TILLATNA.has(traff[1]) || req.method !== 'GET') {
+    return res.status(403).json({ error: 'Otillaten resurs' });
+  }
+  try {
+    const svar = await fetch(`${DIRECTUS_URL}${rest}`, {
+      headers: { Authorization: `Bearer ${DIRECTUS_TOKEN}`, 'Content-Type': 'application/json' },
+    });
+    const text = await svar.text();
+    res.status(svar.status).type(svar.headers.get('content-type') || 'application/json').send(text);
+  } catch (e) {
+    res.status(502).json({ error: 'Kunde inte na databasen' });
+  }
+});
 
 // Upload fil till Directus
 app.post('/api/upload', upload.single('file'), async (req, res) => {
@@ -65,6 +143,9 @@ app.post('/api/resources', async (req, res) => {
 
 // Ta bort resurs
 app.delete('/api/resources/:id', async (req, res) => {
+  if (!giltigSession(req.cookies?.[COOKIE])) {
+    return res.status(401).json({ error: 'Radering kraver inloggning' });
+  }
   try {
     await fetch(`${DIRECTUS_URL}/items/teckensprak_resurser/${req.params.id}`, {
       method: 'DELETE',
@@ -76,7 +157,16 @@ app.delete('/api/resources/:id', async (req, res) => {
   }
 });
 
+app.use(express.static(path.join(__dirname, 'dist'), {
+  index: false,
+  setHeaders(res, filePath) {
+    if (/\.(html|json)$/.test(filePath)) res.setHeader('Cache-Control', 'no-cache');
+    else res.setHeader('Cache-Control', 'public, max-age=86400');
+  },
+}));
+
 app.get('*', (req, res) => {
+  res.setHeader('Cache-Control', 'no-cache');
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
